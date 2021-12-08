@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateCommand extends Command
 {
-    protected static string $defaultName = 'typescript:generate';
+    protected static $defaultName = 'typescript:generate';
 
     public function __construct(
         protected ParserService $parserService,

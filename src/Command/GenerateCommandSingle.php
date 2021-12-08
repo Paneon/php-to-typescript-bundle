@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateCommandSingle extends Command
 {
-    protected static string $defaultName = 'typescript:generate-single';
+    protected static $defaultName = 'typescript:generate-single';
 
     public function __construct(private ParserService $parserService, private Filesystem $fs)
     {
