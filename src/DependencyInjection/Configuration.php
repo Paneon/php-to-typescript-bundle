@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('type_script_generator');
+        $treeBuilder = new TreeBuilder('php_to_type_script');
         $rootNode = $treeBuilder->getRootNode();
 
         if (method_exists($treeBuilder, 'getRootNode')) {
