@@ -32,13 +32,10 @@
     },
     "scripts": {
         "build": [
-            "@lint",
-            "@test"
+            "@lint"
         ],
         "lint": [
             "@php vendor/bin/phpstan analyze src --level=5"
-        ],
-        "test": [
         ]
     }
 }
