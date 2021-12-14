@@ -1,0 +1,41 @@
+{
+    "name": "paneon/php-to-typescript-bundle",
+    "minimum-stability": "stable",
+    "description": "Symfony-Bundle to use the PHP to Typescript library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Paneon\\PhpToTypeScriptBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Pape",
+            "email": "a.pape@paneon.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "paneon/php-to-typescript": "^1.0.0",
+        "symfony/console": "^4.0|^5.0",
+        "symfony/framework-bundle": "^4.0|^5.0",
+        "symfony/monolog-bundle": "^1|^2|^3"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Paneon/php-to-typescript.git"
+        }
+    ],
+    "require-dev": {
+        "phpstan/phpstan": "^1.2"
+    },
+    "scripts": {
+        "build": [
+            "@lint"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyze src --level=5"
+        ]
+    }
+}
