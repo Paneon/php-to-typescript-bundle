@@ -1,6 +1,8 @@
 {
     "name": "paneon/php-to-typescript-bundle",
     "minimum-stability": "stable",
+    "description": "Symfony-Bundle to use the PHP to Typescript library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Paneon\\PhpToTypeScriptBundle\\": "src/"
@@ -26,7 +28,7 @@
         }
     ],
     "require-dev": {
-        "phpstan/phpstan": "^1.3"
+        "phpstan/phpstan": "^1.2"
     },
     "scripts": {
         "build": [
@@ -37,7 +39,6 @@
             "@php vendor/bin/phpstan analyze src --level=5"
         ],
         "test": [
-            "vendor/bin/phpunit"
         ]
     }
 }
