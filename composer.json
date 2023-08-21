@@ -1,6 +1,6 @@
 {
     "name": "paneon/php-to-typescript-bundle",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "description": "Symfony-Bundle to use the PHP to Typescript library",
     "license": "MIT",
     "autoload": {
@@ -8,6 +8,11 @@
             "Paneon\\PhpToTypeScriptBundle\\": "src/"
         }
     },
+  "autoload-dev": {
+    "psr-4": {
+      "Paneon\\PhpToTypeScriptBundle\\": "src/"
+    }
+  },
     "authors": [
         {
             "name": "Alexander Pape",
@@ -16,7 +21,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "paneon/php-to-typescript": "^1.0|^2.0",
+        "paneon/php-to-typescript": "*",
         "symfony/console": "^4.0|^5.0|^6.0",
         "symfony/framework-bundle": "^4.0|^5.0|^6.0",
         "symfony/monolog-bundle": "^1|^2|^3"
