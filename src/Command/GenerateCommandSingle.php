@@ -4,6 +4,7 @@ namespace Paneon\PhpToTypeScriptBundle\Command;
 
 use Paneon\PhpToTypeScript\Services\ParserService;
 use ReflectionException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,6 +12,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[AsCommand(
+    name: 'typescript:generate-single',
+    description: 'Generate TypeScript interfaces from a single PHP file'
+)]
 class GenerateCommandSingle extends Command
 {
     protected static $defaultName = 'typescript:generate-single';
@@ -23,7 +28,8 @@ class GenerateCommandSingle extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Generate TypeScript interfaces from PHP classes in a directory')
+            ->setName('typescript:generate-single')
+            ->setDescription('Generate TypeScript interfaces from a single PHP file')
             ->addArgument(
                 'inputFile',
                 InputArgument::REQUIRED,
