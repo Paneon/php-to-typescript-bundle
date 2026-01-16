@@ -10,7 +10,9 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('php_to_type_script');
+        // The configuration key (a.k.a. extension alias) must match what users put in
+        // config/packages/php_to_typescript.yaml.
+        $treeBuilder = new TreeBuilder('php_to_typescript');
         $rootNode = $treeBuilder->getRootNode();
 
         $this->addGeneralConfiguration($rootNode);

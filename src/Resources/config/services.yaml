@@ -30,6 +30,5 @@ services:
   Paneon\PhpToTypeScript\Services\ParserService:
       public: true
       arguments:
-          $reader: '@annotations.reader'
           $logger: '@monolog.logger'
           $docParser: '@Paneon\PhpToTypeScript\Parser\PhpDocParser'
