@@ -9,6 +9,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class PhpToTypeScriptExtension extends Extension
 {
+    public function getAlias(): string
+    {
+        // Must match the root key used in config/packages/php_to_typescript.yaml
+        return 'php_to_typescript';
+    }
+
     /**
      * @param array            $configs
      * @param ContainerBuilder $container
