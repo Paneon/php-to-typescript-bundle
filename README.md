@@ -2,6 +2,9 @@ PHP Classes to TypeScript Bundle
 ======
 
 [![Build](https://github.com/Paneon/php-to-typescript-bundle/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Paneon/php-to-typescript-bundle/actions/workflows/main.yml)
+[![Latest Stable Version](https://poser.pugx.org/paneon/php-to-typescript-bundle/v/stable)](https://packagist.org/packages/paneon/php-to-typescript-bundle)
+[![Total Downloads](https://poser.pugx.org/paneon/php-to-typescript-bundle/downloads)](https://packagist.org/packages/paneon/php-to-typescript-bundle)
+[![License](https://poser.pugx.org/paneon/php-to-typescript-bundle/license)](https://packagist.org/packages/paneon/php-to-typescript-bundle)
 
 A Symfony bundle that adds a command to extract [TypeScript interface](https://www.typescriptlang.org/docs/handbook/interfaces.html)
 from PHP classes. Based on [the example from Martin Vseticka](https://stackoverflow.com/questions/33176888/export-php-interface-to-typescript-interface-or-vice-versa?answertab=votes#tab-top)
