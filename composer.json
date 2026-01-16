@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "paneon/php-to-typescript": "^1.0|^2.0",
+        "php": "^8.1",
+        "paneon/php-to-typescript": "^2.0",
         "symfony/console": "*",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*"
