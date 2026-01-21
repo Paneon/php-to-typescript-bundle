@@ -50,33 +50,18 @@ The default parameters will scan for alle PHP Classes inside "src/" and output t
 ```php
 <?php
 
-/**
- * @TypeScriptInterface
- */
+use Paneon\PhpToTypeScript\Attribute\TypeScript;
+
+#[TypeScript]
 class Example
 {
-    /**
-     * @var string
-     */
-    public $firstName;
+    public string $firstName;
+    public ?string $middleName;
+    public string $lastName;
+    public ?int $age;
 
-    /**
-     * @var string|null
-     */
-    public $middleName;
-
-    /**
-     * @var string
-     */
-    public $lastName;
-
-    /**
-     * @var int|null
-     */
-    public $age;
-    
     /** @var Contact[] */
-    public $contacts;
+    public array $contacts;
 }
 ```
 
@@ -112,6 +97,121 @@ interface Example {
 }
 ```
 
+## Type Aliases instead of Interfaces
+
+Use the `--use-type` option to generate TypeScript `type` aliases instead of `interface` declarations. This will also change the output file extension from `.d.ts` to `.ts`:
+
+```bash
+php bin/console typescript:generate --use-type
+```
+
+#### Output with --use-type:
+
+```typescript
+type Example = {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    age: number;
+    contacts: Contact[];
+};
+```
+
+## Export Declarations
+
+Use the `--export` option to add the `export` keyword before declarations:
+
+```bash
+php bin/console typescript:generate --export
+```
+
+#### Output with --export:
+
+```typescript
+export interface Example {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    age: number;
+    contacts: Contact[];
+}
+```
+
+You can combine options:
+
+```bash
+php bin/console typescript:generate --export --use-type
+```
+
+#### Output with --export --use-type:
+
+```typescript
+export type Example = {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    age: number;
+    contacts: Contact[];
+};
+```
+
+## Enum Support
+
+PHP 8.1+ enums with the `#[TypeScript]` attribute are automatically processed alongside classes:
+
+```php
+<?php
+
+use Paneon\PhpToTypeScript\Attribute\TypeScript;
+
+#[TypeScript]
+enum Status: string
+{
+    case Active = 'active';
+    case Inactive = 'inactive';
+    case Pending = 'pending';
+}
+```
+
+#### Default enum output:
+
+```typescript
+enum Status {
+    Active = 'active',
+    Inactive = 'inactive',
+    Pending = 'pending',
+}
+```
+
+#### With --enum-union-type option:
+
+Use `--enum-union-type` to output enums as string literal union types:
+
+```bash
+php bin/console typescript:generate --enum-union-type
+```
+
+```typescript
+type Status = 'active' | 'inactive' | 'pending';
+```
+
+## Configuration Options
+
+You can configure these options in `config/packages/php_to_typescript.yaml`:
+
+```yaml
+php_to_typescript:
+    indentation: 2
+    inputDirectory: src/
+    outputDirectory: assets/js/interfaces/
+    prefix: ''
+    suffix: ''
+    nullable: false
+    useType: false      # Generate type aliases instead of interfaces
+    export: false       # Add export keyword to declarations
+    useEnumUnionType: false  # Output enums as union types
+```
+
 
 ## Usage of the Command 'typescript:generate-single'
 
@@ -122,5 +222,14 @@ It will only affect a single file and needs a specific target location if you do
 ```bash
 php bin/console typescript:generate-single vendor/some-package/src/SomeDir/DTO/SomeoneElsesClass.php assets/js/external/some-package/
 ```
+
+### Options for generate-single
+
+- `--nullable`: Include null types in output
+- `--use-type`: Generate type alias instead of interface
+- `--export`: Add export keyword before declaration
+- `--enum-union-type`: Output enums as union types
+
+The command automatically detects whether the file contains a class or enum and processes it accordingly.
 
 It's recommended to trigger the generation of interfaces after `composer update/install`.

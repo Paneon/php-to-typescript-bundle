@@ -32,6 +32,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('prefix')->defaultValue('')->end()
                 ->scalarNode('suffix')->defaultValue('')->end()
                 ->booleanNode('nullable')->defaultValue(false)->end()
+                ->booleanNode('useType')->defaultValue(false)->end()
+                ->booleanNode('export')->defaultValue(false)->end()
+                ->booleanNode('useEnumUnionType')->defaultValue(false)->end()
             ->end();
     }
 

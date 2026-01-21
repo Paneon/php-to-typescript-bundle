@@ -65,6 +65,24 @@ class GenerateCommandSingle extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Whether or not to use Null-aware types for TS v2 and later',
                 false
+            )
+            ->addOption(
+                'use-type',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate "type" instead of "interface" (outputs .ts instead of .d.ts)'
+            )
+            ->addOption(
+                'export',
+                null,
+                InputOption::VALUE_NONE,
+                'Add "export" keyword before declarations'
+            )
+            ->addOption(
+                'enum-union-type',
+                null,
+                InputOption::VALUE_NONE,
+                'Output enums as string literal union types'
             );
     }
 
@@ -79,6 +97,9 @@ class GenerateCommandSingle extends Command
         $suffix = $input->getArgument('suffix');
         $indent = $input->getArgument('indent');
         $includeTypeNullable = $input->getOption('nullable') !== false;
+        $useType = $input->getOption('use-type');
+        $export = $input->getOption('export');
+        $enumUnionType = $input->getOption('enum-union-type');
 
         if ($outputDir[-1] !== DIRECTORY_SEPARATOR) {
             $outputDir .= DIRECTORY_SEPARATOR;
@@ -87,25 +108,31 @@ class GenerateCommandSingle extends Command
         if ($includeTypeNullable) {
             $this->parserService->setIncludeTypeNullable($includeTypeNullable);
         }
+        if ($useType) {
+            $this->parserService->setUseType(true);
+        }
+        if ($export) {
+            $this->parserService->setExport(true);
+        }
+        if ($enumUnionType) {
+            $this->parserService->setUseEnumUnionType(true);
+        }
 
         $targetFile = $outputDir . $this->parserService->getOutputFileName($sourceFileName);
 
         $output->writeln('Generating files...');
 
-        if($prefix){
+        if ($prefix) {
             $this->parserService->setPrefix($prefix);
         }
-        if($suffix){
+        if ($suffix) {
             $this->parserService->setSuffix($suffix);
         }
-        if($indent){
+        if ($indent) {
             $this->parserService->setIndent($indent);
         }
 
-        $content = $this->parserService->getInterfaceContent(
-            $sourceFileName,
-            false
-        );
+        $content = $this->parserService->getContent($sourceFileName, false);
 
         if ($content) {
             $this->fs->dumpFile($targetFile, $content);

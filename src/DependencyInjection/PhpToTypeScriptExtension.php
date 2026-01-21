@@ -34,6 +34,9 @@ class PhpToTypeScriptExtension extends Extension
         $container->setParameter('type_script_generator.inputDirectory', $config['inputDirectory']);
         $container->setParameter('type_script_generator.outputDirectory', $config['outputDirectory']);
         $container->setParameter('type_script_generator.nullable', $config['nullable']);
+        $container->setParameter('type_script_generator.useType', $config['useType']);
+        $container->setParameter('type_script_generator.export', $config['export']);
+        $container->setParameter('type_script_generator.useEnumUnionType', $config['useEnumUnionType']);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');

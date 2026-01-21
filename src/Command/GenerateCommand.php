@@ -29,6 +29,9 @@ class GenerateCommand extends Command
         protected string $inputDirectory,
         protected string $outputDirectory,
         protected array $additionalDirectories,
+        protected bool $useType = false,
+        protected bool $export = false,
+        protected bool $useEnumUnionType = false,
     ) {
         parent::__construct();
 
@@ -44,6 +47,15 @@ class GenerateCommand extends Command
         if ($nullable) {
             $this->parserService->setIncludeTypeNullable($nullable);
         }
+        if ($useType) {
+            $this->parserService->setUseType($useType);
+        }
+        if ($export) {
+            $this->parserService->setExport($export);
+        }
+        if ($useEnumUnionType) {
+            $this->parserService->setUseEnumUnionType($useEnumUnionType);
+        }
     }
 
     protected function configure()
@@ -57,15 +69,45 @@ class GenerateCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Whether or not to use Null-aware types for TS v2 and later',
                 false
+            )
+            ->addOption(
+                'use-type',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate "type" instead of "interface" (outputs .ts instead of .d.ts)'
+            )
+            ->addOption(
+                'export',
+                null,
+                InputOption::VALUE_NONE,
+                'Add "export" keyword before declarations'
+            )
+            ->addOption(
+                'enum-union-type',
+                null,
+                InputOption::VALUE_NONE,
+                'Output enums as string literal union types'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $includeTypeNullable = $input->getOption('nullable') !== false;
+        $useType = $input->getOption('use-type');
+        $export = $input->getOption('export');
+        $enumUnionType = $input->getOption('enum-union-type');
 
         if ($includeTypeNullable) {
             $this->parserService->setIncludeTypeNullable($includeTypeNullable);
+        }
+        if ($useType) {
+            $this->parserService->setUseType(true);
+        }
+        if ($export) {
+            $this->parserService->setExport(true);
+        }
+        if ($enumUnionType) {
+            $this->parserService->setUseEnumUnionType(true);
         }
 
         // Process project source code
@@ -92,12 +134,14 @@ class GenerateCommand extends Command
                 $additionalFileOutputDir .= DIRECTORY_SEPARATOR;
             }
 
-            $content = $this->parserService->getInterfaceContent($sourceFileName, false);
+            $content = $this->parserService->getContent($sourceFileName, false);
 
-            $targetFile = $additionalFileOutputDir . $this->parserService->getOutputFileName($sourceFileName);
-            $this->fs->dumpFile($targetFile, $content);
+            if ($content) {
+                $targetFile = $additionalFileOutputDir . $this->parserService->getOutputFileName($sourceFileName);
+                $this->fs->dumpFile($targetFile, $content);
 
-            $output->writeln('- ' . $sourceFileName . ' => ' . $targetFile);
+                $output->writeln('- ' . $sourceFileName . ' => ' . $targetFile);
+            }
         }
 
 
@@ -122,7 +166,7 @@ class GenerateCommand extends Command
 
         foreach ($files as $sourceFileName) {
 
-            $content = $this->parserService->getInterfaceContent($sourceFileName, $requireAnnotation);
+            $content = $this->parserService->getContent($sourceFileName, $requireAnnotation);
 
             if ($content) {
                 $diffStart = strpos($sourceFileName, $inputDir) + strlen($inputDir);
