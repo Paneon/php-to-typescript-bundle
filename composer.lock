@@ -173,12 +173,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Paneon/php-to-typescript.git",
-                "reference": "66b5a19d142b0795fe799bf0ef386dd2829993c4"
+                "reference": "9aeb20d7da75d91bcd07d658b42e6e1156ee7d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Paneon/php-to-typescript/zipball/66b5a19d142b0795fe799bf0ef386dd2829993c4",
-                "reference": "66b5a19d142b0795fe799bf0ef386dd2829993c4",
+                "url": "https://api.github.com/repos/Paneon/php-to-typescript/zipball/9aeb20d7da75d91bcd07d658b42e6e1156ee7d39",
+                "reference": "9aeb20d7da75d91bcd07d658b42e6e1156ee7d39",
                 "shasum": ""
             },
             "require": {
@@ -227,7 +227,7 @@
                 "source": "https://github.com/Paneon/php-to-typescript/tree/develop",
                 "issues": "https://github.com/Paneon/php-to-typescript/issues"
             },
-            "time": "2026-01-21T17:13:37+00:00"
+            "time": "2026-01-21T17:47:07+00:00"
         },
         {
             "name": "psr/cache",

@@ -25,6 +25,8 @@ class ConfigurationTest extends TestCase
         $this->assertFalse($config['useType']);
         $this->assertFalse($config['export']);
         $this->assertFalse($config['useEnumUnionType']);
+        $this->assertFalse($config['singleFileMode']);
+        $this->assertSame('types.ts', $config['singleFileOutput']);
     }
 
     public function testCustomConfiguration(): void
@@ -42,6 +44,8 @@ class ConfigurationTest extends TestCase
                 'useType' => true,
                 'export' => true,
                 'useEnumUnionType' => true,
+                'singleFileMode' => true,
+                'singleFileOutput' => 'all-types.ts',
             ]
         ]);
 
@@ -54,6 +58,8 @@ class ConfigurationTest extends TestCase
         $this->assertTrue($config['useType']);
         $this->assertTrue($config['export']);
         $this->assertTrue($config['useEnumUnionType']);
+        $this->assertTrue($config['singleFileMode']);
+        $this->assertSame('all-types.ts', $config['singleFileOutput']);
     }
 
     public function testPartialConfiguration(): void
@@ -75,5 +81,36 @@ class ConfigurationTest extends TestCase
         $this->assertFalse($config['useEnumUnionType']);
         $this->assertFalse($config['nullable']);
         $this->assertSame(2, $config['indentation']);
+        $this->assertFalse($config['singleFileMode']);
+        $this->assertSame('types.ts', $config['singleFileOutput']);
+    }
+
+    public function testSingleFileModeConfiguration(): void
+    {
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $config = $processor->processConfiguration($configuration, [
+            [
+                'singleFileMode' => true,
+            ]
+        ]);
+
+        $this->assertTrue($config['singleFileMode']);
+        $this->assertSame('types.ts', $config['singleFileOutput']);
+    }
+
+    public function testSingleFileOutputWithoutMode(): void
+    {
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $config = $processor->processConfiguration($configuration, [
+            [
+                'singleFileOutput' => 'bundle.ts',
+            ]
+        ]);
+
+        // singleFileMode should still be false, but output filename should be set
+        $this->assertFalse($config['singleFileMode']);
+        $this->assertSame('bundle.ts', $config['singleFileOutput']);
     }
 }
