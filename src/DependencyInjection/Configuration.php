@@ -32,6 +32,11 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('prefix')->defaultValue('')->end()
                 ->scalarNode('suffix')->defaultValue('')->end()
                 ->booleanNode('nullable')->defaultValue(false)->end()
+                ->booleanNode('useType')->defaultValue(false)->end()
+                ->booleanNode('export')->defaultValue(false)->end()
+                ->booleanNode('useEnumUnionType')->defaultValue(false)->end()
+                ->booleanNode('singleFileMode')->defaultValue(false)->end()
+                ->scalarNode('singleFileOutput')->defaultValue('types.ts')->end()
             ->end();
     }
 
