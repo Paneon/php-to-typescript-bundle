@@ -155,6 +155,76 @@ export type Example = {
 };
 ```
 
+## Import Resolution
+
+When using the `--export` option, the generator automatically adds `import` statements for referenced types. This enables proper TypeScript module resolution between generated files.
+
+For example, if you have a `User` class that references an `Address` class:
+
+```php
+<?php
+
+use Paneon\PhpToTypeScript\Attribute\TypeScript;
+
+#[TypeScript]
+class User
+{
+    public string $name;
+    public Address $address;
+}
+```
+
+#### Output with --export (multi-file mode):
+
+```typescript
+// User.d.ts
+import { Address } from './Address';
+
+export interface User {
+    name: string;
+    address: Address;
+}
+```
+
+The import paths are automatically calculated based on the relative directory structure of the generated files.
+
+## Single File Mode
+
+Instead of generating individual files for each class/enum, you can output all TypeScript types into a single file using the `--single-file` option:
+
+```bash
+# Use default filename (types.ts)
+php bin/console typescript:generate --export --single-file
+
+# Specify custom filename
+php bin/console typescript:generate --export --single-file=all-types.ts
+```
+
+In single file mode:
+- All types are concatenated into a single output file
+- No `import` statements are generated (all types are in the same file)
+- Directory structure is not preserved
+
+#### Output with --export --single-file:
+
+```typescript
+// types.ts
+export interface Address {
+    street: string;
+    city: string;
+}
+
+export interface User {
+    name: string;
+    address: Address;
+}
+
+export enum Status {
+    Active = 'active',
+    Inactive = 'inactive',
+}
+```
+
 ## Enum Support
 
 PHP 8.1+ enums with the `#[TypeScript]` attribute are automatically processed alongside classes:
@@ -207,9 +277,11 @@ php_to_typescript:
     prefix: ''
     suffix: ''
     nullable: false
-    useType: false      # Generate type aliases instead of interfaces
-    export: false       # Add export keyword to declarations
+    useType: false           # Generate type aliases instead of interfaces
+    export: false            # Add export keyword to declarations
     useEnumUnionType: false  # Output enums as union types
+    singleFileMode: false    # Output all types to a single file
+    singleFileOutput: 'types.ts'  # Filename for single file mode
 ```
 
 

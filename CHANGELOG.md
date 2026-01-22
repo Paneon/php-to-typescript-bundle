@@ -11,6 +11,8 @@ Changelog
 - **Enum support**: Automatically process PHP 8.1+ enums annotated with `#[TypeScript]` attribute.
 - **CLI options**: Added `--use-type`, `--export`, and `--enum-union-type` flags to both commands.
 - **PHPUnit test suite**: Added basic test infrastructure with configuration tests.
+- **Single file mode**: Generate all TypeScript types into a single file instead of individual files per class/enum. Configure with `singleFileMode: true` and `singleFileOutput: 'types.ts'` or use `--single-file[=filename]` CLI option.
+- **Import resolution**: When using `export: true`, the generator now automatically adds `import` statements for referenced types. This enables proper TypeScript module resolution between generated files.
 
 # 2.0.0
 

@@ -20,7 +20,8 @@
         "paneon/php-to-typescript": "^2.2.0",
         "symfony/console": "*",
         "symfony/framework-bundle": "*",
-        "symfony/monolog-bundle": "*"
+        "symfony/monolog-bundle": "*",
+        "nikic/php-parser": "^5.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.2",
