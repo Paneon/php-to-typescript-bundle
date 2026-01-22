@@ -1,6 +1,6 @@
 {
     "name": "paneon/php-to-typescript-bundle",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "description": "Symfony-Bundle to use the PHP to Typescript library",
     "license": "MIT",
@@ -17,17 +17,11 @@
     ],
     "require": {
         "php": "^8.1",
-        "paneon/php-to-typescript": "dev-develop",
+        "paneon/php-to-typescript": "^2.2.0",
         "symfony/console": "*",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Paneon/php-to-typescript.git"
-        }
-    ],
     "require-dev": {
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^10.0"

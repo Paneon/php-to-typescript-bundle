@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "415db45a08fdf03485e040bfa735645f",
+    "content-hash": "95cecac26b760daa866b7c20a3818faf",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -169,16 +169,16 @@
         },
         {
             "name": "paneon/php-to-typescript",
-            "version": "dev-develop",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Paneon/php-to-typescript.git",
-                "reference": "9aeb20d7da75d91bcd07d658b42e6e1156ee7d39"
+                "reference": "034e399b048b7b5f16b8f985c0517963a15fe22c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Paneon/php-to-typescript/zipball/9aeb20d7da75d91bcd07d658b42e6e1156ee7d39",
-                "reference": "9aeb20d7da75d91bcd07d658b42e6e1156ee7d39",
+                "url": "https://api.github.com/repos/Paneon/php-to-typescript/zipball/034e399b048b7b5f16b8f985c0517963a15fe22c",
+                "reference": "034e399b048b7b5f16b8f985c0517963a15fe22c",
                 "shasum": ""
             },
             "require": {
@@ -195,24 +195,7 @@
                     "Paneon\\PhpToTypeScript\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Paneon\\PhpToTypeScript\\": "src/",
-                    "Paneon\\PhpToTypeScript\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "build": [
-                    "@lint",
-                    "@test"
-                ],
-                "lint": [
-                    "@php vendor/bin/phpstan analyze src --level=5"
-                ],
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -224,10 +207,10 @@
             ],
             "description": "Generate TypeScript classes and interfaces based on PHP classes.",
             "support": {
-                "source": "https://github.com/Paneon/php-to-typescript/tree/develop",
-                "issues": "https://github.com/Paneon/php-to-typescript/issues"
+                "issues": "https://github.com/Paneon/php-to-typescript/issues",
+                "source": "https://github.com/Paneon/php-to-typescript/tree/v2.2.0"
             },
-            "time": "2026-01-21T17:47:07+00:00"
+            "time": "2026-01-22T13:02:50+00:00"
         },
         {
             "name": "psr/cache",
@@ -4435,10 +4418,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "paneon/php-to-typescript": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
