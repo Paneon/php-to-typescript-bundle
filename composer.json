@@ -19,6 +19,7 @@
         "php": "^8.1",
         "paneon/php-to-typescript": "^2.2.0",
         "symfony/console": "*",
+        "symfony/finder": "*",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*",
         "nikic/php-parser": "^5.0"

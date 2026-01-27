@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
     name: 'typescript:generate',
@@ -199,6 +200,12 @@ class GenerateCommand extends Command
         bool $requireAnnotation,
         SourceFileCollection $collection
     ): void {
+        // Normalize input directory to real path for comparison with Finder results
+        $inputDir = realpath($inputDir);
+        if ($inputDir === false) {
+            return;
+        }
+
         if ($inputDir[-1] !== DIRECTORY_SEPARATOR) {
             $inputDir .= DIRECTORY_SEPARATOR;
         }
@@ -207,7 +214,7 @@ class GenerateCommand extends Command
             $outputDir .= DIRECTORY_SEPARATOR;
         }
 
-        $files = $this->rglob($inputDir . '*.php');
+        $files = $this->getPhpFiles($inputDir);
 
         foreach ($files as $sourceFileName) {
             $diffStart = strpos($sourceFileName, $inputDir) + strlen($inputDir);
@@ -339,6 +346,12 @@ class GenerateCommand extends Command
 
     public function processDirectory(string $inputDir, string $outputDir, bool $requireAnnotation, OutputInterface $io): void
     {
+        // Normalize input directory to real path for comparison with Finder results
+        $inputDir = realpath($inputDir);
+        if ($inputDir === false) {
+            return;
+        }
+
         if ($inputDir[-1] !== DIRECTORY_SEPARATOR) {
             $inputDir .= DIRECTORY_SEPARATOR;
         }
@@ -347,7 +360,7 @@ class GenerateCommand extends Command
             $outputDir .= DIRECTORY_SEPARATOR;
         }
 
-        $files = $this->rglob($inputDir . '*.php');
+        $files = $this->getPhpFiles($inputDir);
 
         $io->writeln('Processing directory: ' . $inputDir);
 
@@ -371,62 +384,22 @@ class GenerateCommand extends Command
         }
     }
 
-    private function rglob($pattern_in, int $flags = 0): array
+    /**
+     * Recursively find all PHP files in a directory.
+     */
+    private function getPhpFiles(string $directory): array
     {
-        $patterns = array();
-        if ($flags & GLOB_BRACE) {
-            if (preg_match_all('#\{[^.\}]*\}#i', $pattern_in, $matches)) {
-                // Get all GLOB_BRACE entries.
-                $brace_entries = array();
-                foreach ($matches [0] as $index => $match) {
-                    $brace_entries [$index] = explode(',', substr($match, 1, -1));
-                }
+        $finder = new Finder();
+        $finder->files()
+            ->in($directory)
+            ->name('*.php')
+            ->sortByName();
 
-                // Create cartesian product.
-                // @source: https://stackoverflow.com/questions/6311779/finding-cartesian-product-with-php-associative-arrays
-                $cart = array(
-                    array()
-                );
-                foreach ($brace_entries as $key => $values) {
-                    $append = array();
-                    foreach ($cart as $product) {
-                        foreach ($values as $item) {
-                            $product [$key] = $item;
-                            $append [] = $product;
-                        }
-                    }
-                    $cart = $append;
-                }
-
-                // Create multiple glob patterns based on the cartesian product.
-                foreach ($cart as $vals) {
-                    $c_pattern = $pattern_in;
-                    foreach ($vals as $index => $val) {
-                        $c_pattern = preg_replace(
-                            DIRECTORY_SEPARATOR . $matches [0] [$index] . DIRECTORY_SEPARATOR,
-                            $val,
-                            $c_pattern,
-                            1
-                        );
-                    }
-                    $patterns [] = $c_pattern;
-                }
-            } else {
-                $patterns [] = $pattern_in;
-            }
-        } else {
-            $patterns [] = $pattern_in;
+        $files = [];
+        foreach ($finder as $file) {
+            $files[] = $file->getRealPath();
         }
 
-        // @source: http://php.net/manual/en/function.glob.php#106595
-        $result = array();
-        foreach ($patterns as $pattern) {
-            $files = glob($pattern, $flags);
-            foreach (glob(dirname($pattern) . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-                $files = array_merge($files, $this->rglob($dir . DIRECTORY_SEPARATOR . basename($pattern), $flags));
-            }
-            $result = array_merge($result, $files);
-        }
-        return $result;
+        return $files;
     }
 }
